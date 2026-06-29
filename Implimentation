@@ -1,0 +1,69 @@
+IMPLEMENTATION
+The implementation of the Reversible Data Hiding in Encrypted JPEG Bitstreams involves translating the theoretical concepts and documented design into a working model. Below is a breakdown of the steps and tools required for the implementation:
+1. Preparation and Setup
+•
+Development Environment: Use MATLAB as the primary software for implementing algorithms. Install necessary toolboxes like the Image Processing Toolbox.
+•
+Dataset: Collect a set of JPEG images to test the system. Ensure the images vary in size and complexity to validate performance under different conditions.
+2. JPEG Encryption
+•
+Implement an encryption module to transform the original JPEG image into an encrypted bitstream:
+o
+Use symmetric encryption (e.g., stream cipher techniques like RC4 or SEAL) to encrypt entropy-coded segments.
+o
+Generate differential values for DC coefficients: [ ds'(i) = ds(i) - ds(i-1) ]
+o
+Re-encode the coefficients using Huffman codes to preserve JPEG format compatibility.
+3. Data Embedding
+•
+Develop the data embedding module for reversible data hiding in two stages:
+o
+Stage 1: Huffman Code Mapping:
+▪
+Map unused Huffman codes to embed additional data while preserving the coding structure.
+36
+▪
+Compute embedding capacity: [ C_M = \sum_{k} \gamma_k \cdot \log_2(\pi_k + 1) ]
+o
+Stage 2: Ordered Histogram Shifting:
+▪
+Use AC coefficients with zero-run-length values for embedding additional data.
+▪
+Ensure minimal bitstream length increment: [ L > \Delta ]
+4. Data Extraction and Bitstream Recovery
+•
+Implement algorithms to reverse the embedding process:
+o
+Data Extraction:
+▪
+Retrieve embedded messages by decoding the modified Huffman codes and shifting histograms back.
+o
+Bitstream Recovery:
+▪
+Restore the original encrypted JPEG bitstream perfectly by reversing both embedding stages.
+5. JPEG Decryption
+•
+Develop the decryption module for authorized users:
+o
+Use the symmetric decryption key to decode the encrypted JPEG bitstream.
+o
+Validate that the decrypted image matches the original JPEG image without any loss.
+6. Performance Evaluation
+•
+Measure the efficiency and effectiveness of the system using the following metrics:
+o
+Peak Signal-to-Noise Ratio (PSNR): [ PSNR = 10 \cdot \log_{10} \left( \frac{255^2}{MSE} \right) ]
+o
+Embedding Capacity (C): Sum of capacities from both embedding stages.
+37
+o
+Bitstream Overhead: Measure the increase in bitstream size due to embedding.
+7. Testing and Validation
+•
+Use test cases to validate the system:
+o
+Verify reversibility by ensuring the original image and data are perfectly recovered.
+o
+Test with various encryption keys and data payloads to ensure robustness.
+o
+Evaluate system performance under different image resolutions and embedding capacities.
